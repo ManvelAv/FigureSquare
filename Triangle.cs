@@ -1,83 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FigureSquare
 {
-    internal class Triangle
+    internal class Triangle : IAreaCalculate, IRightAngleChek
     {
-        public static void PrintSqr()
+        private double sideA;
+        private double sideB;
+        private double sideC;
+
+        public void Input()
         {
-            Console.WriteLine("Вы выбрали треугольник\nДля выхода нажмите Escape\nтеперь введите значения сторон ");
-
-            while (Console.ReadKey().Key != ConsoleKey.Escape)
+            do
             {
-                try
-                {
-                    Console.WriteLine("Введите сторону A: ");
-                    if (!double.TryParse(Console.ReadLine(), out double a) || a <= 0)
-                    {
-                        Console.WriteLine("Некорректный ввод. Введите положительное число.");
-                        continue;
-                    }
+                Console.WriteLine("Введите сторону A: ");
+            } while (!double.TryParse(Console.ReadLine(), out sideA));
 
-                    Console.WriteLine("Введите сторону B: ");
-                    if (!double.TryParse(Console.ReadLine(), out double b) || b <= 0)
-                    {
-                        Console.WriteLine("Некорректный ввод. Введите положительное число.");
-                        continue;
-                    }
+            do
+            {
+                Console.WriteLine("Введите сторону B: ");
+            } while (!double.TryParse(Console.ReadLine(), out sideB));
 
-                    Console.WriteLine("Введите сторону C: ");
-                    if (!double.TryParse(Console.ReadLine(), out double c) || c <= 0)
-                    {
-                        Console.WriteLine("Некорректный ввод. Введите положительное число.");
-                        continue;
-                    }
+            do
+            {
+                Console.WriteLine("Введите сторону C: ");
+            } while (!double.TryParse(Console.ReadLine(), out sideC));
 
-                    if (!IsValidTriangle(a, b, c))
-                    {
-                        Console.WriteLine("Ошибка размеров сторон");
-                        continue;
-                    }
 
-                    double p = (a + b + c) / 2;
-                    double sqr = Math.Sqrt(p * (p - a) * (p - b) * (p - c));
-
-                    Console.WriteLine($"Площадь треугольника = {sqr}");
-
-                    Console.WriteLine("Проверить на прямой угол?\n Y - да");
-                    if (Console.ReadKey().Key == ConsoleKey.Y)
-                    {
-                        Console.WriteLine();
-                        if (IsRightAngledTriangle(a, b, c))
-                        {
-                            Console.WriteLine("Треугольник является прямоугольным");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Треугольник не прямоугольный");
-                        }
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Введите корректное значение сторон треугольника");
-                    continue;
-                }
+            if (sideA + sideB <= sideC || sideB + sideC <= sideA || sideA + sideC <= sideB || sideA <= 0 || sideB <= 0 || sideC <= 0)
+            {
+                Console.WriteLine("Ошибка размеров сторон треугольника");
+                return;
             }
         }
 
-        private static bool IsValidTriangle(double a, double b, double c)
+        public double CalculateArea()
         {
-            return a > 0 && b > 0 && c > 0 && (a + b > c && b + c > a && a + c > b);
+            double p = (sideA + sideB + sideC) / 2;
+            return Math.Sqrt(p*(p-sideA)*(p-sideB)*(p-sideC));
         }
 
-        private static bool IsRightAngledTriangle(double a, double b, double c)
+        
+
+        public bool RightAngleChek()
         {
-            return (a * a + b * b == c * c) || (a * a + c * c == b * b) || (c * c + b * b == a * a);
+            return (sideA * sideA + sideB * sideB == sideC * sideC) ||
+                   (sideA * sideA + sideC * sideC == sideB * sideB) ||
+                   (sideC * sideC + sideB * sideB == sideA * sideA);
         }
     }
 
