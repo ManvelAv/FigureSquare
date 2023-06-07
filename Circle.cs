@@ -1,34 +1,21 @@
-﻿namespace FigureSquare
+namespace FigureSquare
 {
-    class Circle
+    class Circle : IAreaCalculate
     {
-        private const double PI = 3.1415;
-        private static double radius;
-
-        public static void PrintSqr()
+        private double _radius;
+        const double PI = 3.1415;
+        
+        public double CalculateArea()
         {
-            Console.WriteLine("Вы выбрали круг");
-            Console.WriteLine("Для выхода нажмите Escape\nВведите пожалуйста радиус круга\n ");
-            while (Console.ReadKey().Key != ConsoleKey.Escape)
-            {
-                try
-                {
-                    radius = Convert.ToDouble(Console.ReadLine());
-                    if (radius <= 0)
-                    {
-                        Console.WriteLine("Введите корректное значение радиуса ");
-                        continue;
-                    }
+            return PI * _radius * _radius;
+        }
 
-                    double sqr = PI * radius * radius;
-                    Console.WriteLine($"Площадь круга = {sqr} см");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Введите корректное значение радиуса");
-                    continue;
-                }
-            }
+        public void Input()
+        {
+            do
+            {
+                Console.WriteLine("Введите пожалуйста радиус !");
+            } while (double.TryParse(Console.ReadLine(), out _radius) == false); ;
         }
     }
 }
