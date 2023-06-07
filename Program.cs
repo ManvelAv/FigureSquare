@@ -1,32 +1,36 @@
-﻿namespace FigureSquare
+namespace FigureSquare
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите тип фигуры: 1 - Круг, 2 - Треугольник");
+            Console.WriteLine("Выберите фигуру : ");
+            Console.WriteLine("Круг - нажмите 1\nТреугольник - нажмите 2");
+            ShapeCalculator calculator = new ShapeCalculator();
 
-            while (true)
+            while (Console.ReadKey().Key != ConsoleKey.Escape)
             {
-                string input = Console.ReadLine();
-
-                if (input == "1")
+               
+                int x;
+                if (!int.TryParse(Console.ReadLine(), out x))
                 {
-                    Circle.PrintSqr();
-                    break;
+                    Console.WriteLine("Некорректный ввод. Попробуйте снова.");
+                    continue;
                 }
-                else if (input == "2")
+                IAreaCalculate shape;
+                switch (x)
                 {
-                    Triangle.PrintSqr();
-                    break;
+                    case 1:
+                        shape = new Circle();
+                        break;
+                    case 2:
+                        shape = new Triangle();
+                        break;
+                    default:
+                        continue;
                 }
-                else
-                {
-                    Console.WriteLine("Некорректный ввод. Попробуйте еще раз.");
-                }
+                calculator.PrintSqr(shape);
             }
-
-            Console.ReadKey();
         }
     }
 }
